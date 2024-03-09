@@ -34,10 +34,15 @@ public class AppPanel extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         String cmmd = e.getActionCommand();
         try {
-            switch (cmmd) {
-                case "Change":
+
+            String[] editCommands = appfactory.getEditCommands();
+            for (String c: editCommands) {
+                if (cmmd.equals(c)) {
                     appfactory.makeEditCommand(model, cmmd).execute();
-                    break;
+                    return;
+                }
+            }
+            switch (cmmd) {
 
                 case "Save": {
                     Utilities.save(model, model.getUnsavedChanges());
