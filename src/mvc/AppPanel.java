@@ -6,7 +6,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class AppPanel extends JPanel implements ActionListener {
-
     AppFactory appfactory;
     Model model;
     View view;
@@ -38,7 +37,7 @@ public class AppPanel extends JPanel implements ActionListener {
             String[] editCommands = appfactory.getEditCommands();
             for (String c: editCommands) {
                 if (cmmd.equals(c)) {
-                    appfactory.makeEditCommand(model, cmmd).execute();
+                    appfactory.makeEditCommand(model, cmmd, e.getSource()).execute();
                     return;
                 }
             }
