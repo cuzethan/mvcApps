@@ -9,14 +9,16 @@ public class AppPanel extends JPanel implements ActionListener {
     AppFactory appfactory;
     Model model;
     View view;
-    ControlPanel controls;
+    protected ControlPanel controls;
     public AppPanel(AppFactory factory) {
         appfactory = factory;
         model = appfactory.makeModel();
         view =  appfactory.makeView(model);
         controls = new ControlPanel();
         this.setLayout((new GridLayout(1, 2)));
+    }
 
+    public void display() {
         this.add(controls);
         this.add(view);
 
@@ -29,7 +31,6 @@ public class AppPanel extends JPanel implements ActionListener {
         frame.setSize(500, 300);
         frame.setVisible(true);
     }
-
     public void actionPerformed(ActionEvent e) {
         String cmmd = e.getActionCommand();
         try {
@@ -105,16 +106,10 @@ public class AppPanel extends JPanel implements ActionListener {
         return result;
     }
 
-    class ControlPanel extends JPanel {
+
+    protected class ControlPanel extends JPanel {
         public ControlPanel() {
             setBackground(Color.PINK);
-            JPanel p = new JPanel();
-            for (String name: appfactory.getEditCommands()) {
-                JButton button = new JButton(name);
-                button.addActionListener(AppPanel.this);
-                p.add(button);
-            }
-            add(p);
         }
 
     }
