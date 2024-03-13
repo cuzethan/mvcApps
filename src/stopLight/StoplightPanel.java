@@ -10,7 +10,7 @@ public class StoplightPanel extends AppPanel {
         super(factory);
         JButton button = new JButton("Change");
         button.addActionListener(this);
-        controls.add(button);
+        controlPanel.add(button);
     }
 
     public static void main(String[] args) {

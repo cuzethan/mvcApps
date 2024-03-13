@@ -5,36 +5,52 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class AppPanel extends JPanel implements ActionListener {
-    AppFactory appfactory;
-    Model model;
-    View view;
-    protected ControlPanel controls;
+public class AppPanel extends JPanel implements ActionListener, Subscriber{
+    protected AppFactory appfactory;
+    protected Model model;
+    protected View view;
+    protected JPanel controlPanel;
+    private JFrame frame;
+    public static int FRAME_WIDTH = 500;
+    public static int FRAME_HEIGHT = 300;
     public AppPanel(AppFactory factory) {
         appfactory = factory;
         model = appfactory.makeModel();
         view =  appfactory.makeView(model);
-        controls = new ControlPanel();
+        controlPanel = new JPanel();
+        controlPanel.setBackground(Color.PINK);
         this.setLayout((new GridLayout(1, 2)));
-    }
 
-    public void display() {
-        this.add(controls);
+        this.add(controlPanel);
         this.add(view);
 
-        JFrame frame = new JFrame();
+        frame = new SafeFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Container cp = frame.getContentPane();
         cp.add(this);
         frame.setJMenuBar(this.createMenuBar());
         frame.setTitle(appfactory.getTitle());
-        frame.setSize(500, 300);
-        frame.setVisible(true);
+        frame.setSize(FRAME_WIDTH, FRAME_HEIGHT);
     }
+
+    public void display() {frame.setVisible(true);}
+
+    public void update() {/* override for extensions if needed */}
+
+    // called by file/open and file/new
+    public void setModel(Model newModel) {
+        this.model.unsubscribe(this);
+        this.model = newModel;
+        this.model.subscribe(this);
+        // view must also unsubscribe then resubscribe:
+        view.setView(this.model);
+        model.changed();
+    }
+
+
     public void actionPerformed(ActionEvent e) {
         String cmmd = e.getActionCommand();
         try {
-
             String[] editCommands = appfactory.getEditCommands();
             for (String c: editCommands) {
                 if (cmmd.equals(c)) {
@@ -42,33 +58,31 @@ public class AppPanel extends JPanel implements ActionListener {
                     return;
                 }
             }
-            switch (cmmd) {
 
+            switch (cmmd) {
                 case "Save": {
                     Utilities.save(model, model.getUnsavedChanges());
                     break;
                 }
 
                 case "Open": {
-
                     if (Utilities.confirm("Are you sure? Unsaved changes will be lost!")) {
-                        model = Utilities.open(model);
-                        view.setView(model);
-                        model.notifySubscribers();
+                        Model newModel = Utilities.open(model);
+                        if (newModel != null) setModel(newModel);
                     }
-
                     break;
-
                 }
 
                 case "New": {
-                    model = appfactory.makeModel();
-                    view.setView(model);
-                    model.notifySubscribers();
+                    Utilities.saveChanges(model);
+                    setModel(appfactory.makeModel());
+                    // needed cuz setModel sets to true:
+                    model.setUnsavedChanges(false);
                     break;
                 }
 
                 case "Quit": {
+                    Utilities.saveChanges(model);
                     System.exit(0);
                     break;
                 }
@@ -79,10 +93,8 @@ public class AppPanel extends JPanel implements ActionListener {
                 }
 
                 case "Help": {
-                    String[] cmmds = appfactory.getHelp();
-                    Utilities.inform(cmmds);
+                    Utilities.inform(appfactory.getHelp());
                     break;
-
                 }
 
                 default: {
@@ -104,13 +116,5 @@ public class AppPanel extends JPanel implements ActionListener {
         JMenu helpMenu = Utilities.makeMenu("Help", new String[]{"About", "Help"}, this);
         result.add(helpMenu);
         return result;
-    }
-
-
-    protected class ControlPanel extends JPanel {
-        public ControlPanel() {
-            setBackground(Color.PINK);
-        }
-
     }
 }
