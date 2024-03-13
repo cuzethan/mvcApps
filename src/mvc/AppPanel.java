@@ -25,7 +25,6 @@ public class AppPanel extends JPanel implements ActionListener, Subscriber{
         this.add(view);
 
         frame = new SafeFrame();
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Container cp = frame.getContentPane();
         cp.add(this);
         frame.setJMenuBar(this.createMenuBar());
