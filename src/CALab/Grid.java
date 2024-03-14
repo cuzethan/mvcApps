@@ -37,17 +37,9 @@ public abstract class Grid extends Model {
 
     // called when Populate button is clicked
     public void repopulate(boolean randomly) {
-        if (randomly) {
-            for (int i = 0; i < cells.length; i++) {
-                for(int j = 0; j < cells[0].length; j++) {
-                    cells[i][j].nextState();
-                }
-            }
-        } else {
-            for (int i = 0; i < cells.length; i++) {
-                for(int j = 0; j < cells[0].length; j++) {
-                    cells[i][j].reset(false); //who the fuck knows ask professor
-                }
+        for (int i = 0; i < cells.length; i++) {
+            for (int j = 0; j < cells[0].length; j++) {
+                cells[i][j].reset(randomly);
             }
         }
         notifySubscribers();
