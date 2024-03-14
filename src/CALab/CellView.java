@@ -2,8 +2,13 @@ package CALab;
 
 import mvc.*;
 
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class CellView extends JButton implements ActionListener, Subscriber {
+
+public class CellView extends JButton implements ActionListener, Subscriber { // extends JButton implements ActionListener, Subscriber
     private Cell myCell;
 
     public CellView(Cell c) {
@@ -17,15 +22,16 @@ public class CellView extends JButton implements ActionListener, Subscriber {
     @Override
     public void actionPerformed(ActionEvent e) {
         myCell.nextState();
-        // call update needed?
+        setBackground(myCell.getColor());
+        setBorder(BorderFactory.createLineBorder(Color.black));
+        setText("" + myCell.getStatus());
     }
 
     // called by notifySubscribers and GridView.update
 
-    @Override
-    public void update(String msg, Object oldState, Object newState) {
+    public void update() {
         setBackground(myCell.getColor());
-        setBorder(BorderFactory.createLineBorder(Color.black)); // needed?
+        setBorder(BorderFactory.createLineBorder(Color.black));
         setText("" + myCell.getStatus());
     }
 }
