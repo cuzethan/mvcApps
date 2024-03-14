@@ -55,30 +55,33 @@ public abstract class Grid extends Model {
 
 
     public Set<Cell> getNeighbors(Cell asker, int radius) {
-        Set<Cell> neighbors = new HashSet<>();
-        int row = asker.row;
-        int col = asker.col;
-        for (int i = 0; i < radius; i++) {
-            row--;
-            col--;
-            if (row < 0) {
-                row = dim;
+            Set<Cell> neighbors = new HashSet<>();
+            int row = asker.row;
+            int col = asker.col;
+
+            for (int i = (-1 * radius); i <= radius; i++) {
+                int currRow = i + row;
+                if (currRow > dim - 1) {
+                    currRow = i - 1;
+                } else if (currRow < 0) {
+                    currRow = dim + i;
+                }
+                for (int j = (-1 * radius); j <= radius; j++) {
+                    int currCol = j + col;
+                    if (currRow == asker.row && currCol == asker.col) {
+                        continue;
+                    }
+                    if (currCol > dim - 1) {
+                        currCol = j - 1;
+                    } else if (currCol < 0) {
+                        currCol = dim + j;
+                    }
+                    neighbors.add(cells[currRow][currCol]);
+                }
             }
-            if (col < 0) {
-                col = dim;
-            }
+            return neighbors;
         }
 
-        for (int i = 0; i < 2 * radius + 1; i++) {
-            for (int j = 0; j < 2 * radius + 1; j++) {
-                if (i == asker.row & j == asker.col) {
-                    continue;
-                }
-                neighbors.add(cells[i][j]);
-            }
-        }
-        return null;
-    }
 
     // overide these
     public int getStatus() { return 0; }
