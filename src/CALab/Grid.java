@@ -29,6 +29,7 @@ public abstract class Grid extends Model {
                 cells[i][j] = makeCell(true); //parameter filler, fix later????/
                 cells[i][j].row = i;
                 cells[i][j].col = j;
+                cells[i][j].neighbors = getNeighbors(cells[i][j], 1);
             }
         }
         // 1. use makeCell to fill in cells
