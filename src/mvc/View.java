@@ -10,7 +10,7 @@ public abstract class View extends JPanel implements Subscriber {
         model.subscribe(this);
     }
 
-    public void update() {}
+    abstract public void update();
 
     public void setView(Model model) {
         this.model.unsubscribe(this);
