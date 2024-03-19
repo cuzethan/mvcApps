@@ -7,7 +7,7 @@ import mvc.*;
 
 public abstract class Grid extends Model {
     static private int time = 0;
-    protected int dim = 20;
+    protected int dim;
     protected Cell[][] cells;
 
     public int getDim() { return dim; }
@@ -29,9 +29,16 @@ public abstract class Grid extends Model {
                 cells[i][j] = makeCell(true); //parameter filler, fix later????/
                 cells[i][j].row = i;
                 cells[i][j].col = j;
+                cells[i][j].myGrid = this;
+            }
+        }
+
+        for (int i = 0; i < cells.length; i++) {
+            for(int j = 0; j < cells[0].length; j++) {
                 cells[i][j].neighbors = getNeighbors(cells[i][j], 1);
             }
         }
+        changed();
         // 1. use makeCell to fill in cells
         // 2. use getNeighbors to set the neighbors field of each cell
     }
@@ -43,7 +50,8 @@ public abstract class Grid extends Model {
                 cells[i][j].reset(randomly);
             }
         }
-        notifySubscribers();
+        time = 0;
+        changed();
     }
 
 
@@ -73,12 +81,7 @@ public abstract class Grid extends Model {
                 }
             }
             return neighbors;
-        }
-
-
-    // overide these
-    public int getStatus() { return 0; }
-    public Color getColor() { return Color.GREEN; }
+    }
 
     // cell phases:
 
@@ -118,6 +121,7 @@ public abstract class Grid extends Model {
             time++;
             System.out.println("time = " + time);
         }
+        changed();
     }
 }
 
