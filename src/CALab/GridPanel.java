@@ -1,5 +1,6 @@
 package CALab;
 
+import LifeLab.LifeFactory;
 import mvc.*;
 
 import javax.swing.*;
@@ -10,7 +11,7 @@ public class GridPanel extends AppPanel {
     private JButton populate;
     private JButton clear;
 
-    public GridPanel(GridFactory f){
+    public GridPanel(AppFactory f){
         super(f);
         run1 = new JButton("Run1");
         run1.addActionListener(this);
@@ -22,7 +23,7 @@ public class GridPanel extends AppPanel {
         populate = new JButton("Populate");
         populate.addActionListener(this);
 
-        clear = new JButton("clear");
+        clear = new JButton("Clear");
         clear.addActionListener(this);
 
         controlPanel.add(run1);
@@ -30,11 +31,9 @@ public class GridPanel extends AppPanel {
         controlPanel.add(populate);
         controlPanel.add(clear);
     }
-    /**
     public static void main(String[] args) {
-
-        AppFactory factory = new GridFactory();
+        AppFactory factory = new LifeFactory();
         AppPanel panel = new GridPanel(factory);
         panel.display();
-    }*/
+    }
 }

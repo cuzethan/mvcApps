@@ -26,7 +26,7 @@ public abstract class Grid extends Model {
     protected void populate() {
         for (int i = 0; i < cells.length; i++) {
             for(int j = 0; j < cells[0].length; j++) {
-                cells[i][j] = makeCell(true); //parameter filler, fix later????/
+                cells[i][j] = makeCell(true);
                 cells[i][j].row = i;
                 cells[i][j].col = j;
                 cells[i][j].myGrid = this;
