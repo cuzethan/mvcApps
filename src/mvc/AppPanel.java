@@ -5,14 +5,14 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class AppPanel extends JPanel implements ActionListener, Subscriber{
+public class AppPanel extends JPanel implements ActionListener, Subscriber {
     protected AppFactory appfactory;
     protected Model model;
     protected View view;
     protected JPanel controlPanel;
     private JFrame frame;
-    public static int FRAME_WIDTH = 500;
-    public static int FRAME_HEIGHT = 300;
+    public static int FRAME_WIDTH = 1000;
+    public static int FRAME_HEIGHT = 500;
     public AppPanel(AppFactory factory) {
         appfactory = factory;
         model = appfactory.makeModel();
