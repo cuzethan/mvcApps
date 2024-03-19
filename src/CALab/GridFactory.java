@@ -5,7 +5,7 @@ import mvc.*;
 
 public abstract class GridFactory implements AppFactory {
     public abstract Model makeModel();
-    public abstract View makeView(Model m);
+    public View makeView(Model m) { return new GridView(m); }
     public String getTitle(){
         return "CA Lab";
     }
