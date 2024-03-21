@@ -1,6 +1,6 @@
 package mvc;
 
-public interface    AppFactory {
+public interface AppFactory {
     Model makeModel();
     View makeView(Model m);
     String getTitle();
