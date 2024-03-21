@@ -15,6 +15,8 @@ public class GridPanel extends AppPanel {
     public GridPanel(AppFactory f){
         super(f);
 
+        controlPanel.setLayout(new GridLayout(1,2));
+
         JPanel leftPanel = new JPanel();
         leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.PAGE_AXIS));
 
