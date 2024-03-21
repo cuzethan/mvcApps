@@ -20,9 +20,6 @@ public class AppPanel extends JPanel implements ActionListener, Subscriber {
         controlPanel = new JPanel();
 
 
-        controlPanel.setBackground(Color.PINK);
-
-
         this.setLayout((new GridLayout(1, 2)));
 
         this.add(controlPanel);
